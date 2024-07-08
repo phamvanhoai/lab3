@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <math.h>
+
+// Ham kiem tra tinh hop le cua 3 canh tam giac
+int kiemTraTamGiac(float a, float b, float c) {
+    return (a + b > c) && (a + c > b) && (b + c > a);
+}
+
+// Ham tinh dien tich tam giac theo cong thuc Heron
+float tinhDienTich(float a, float b, float c) {
+    float p = (a + b + c) / 2;
+    return sqrt(p * (p - a) * (p - b) * (p - c));
+}
+
+// Ham nhap mot so thuc tu ban phim, bao loi neu nhap sai hoac khong phai so duong
+void nhapSoThucDuong(const char *prompt, float *so) {
+    int validInput;
+    do {
+        printf("%s", prompt);
+        validInput = scanf("%f", so);
+        if (!validInput || *so <= 0) {
+            printf("Loi: Vui long nhap mot so thuc duong hop le.\n");
+            while (getchar() != '\n'); // Xoa bo dem nhap lieu
+            validInput = 0; // Duy tri vong lap neu nhap sai
+        }
+    } while (!validInput);
+}
+
+int main() {
+    float a, b, c;
+    printf("In ho ten SV: Pham Van Hoai\n");
+
+    // Nhap cac canh tam giac
+    nhapSoThucDuong("Nhap a = ", &a);
+    nhapSoThucDuong("Nhap b = ", &b);
+    nhapSoThucDuong("Nhap c = ", &c);
+
+    // Kiem tra tinh hop le cua tam giac
+    if (kiemTraTamGiac(a, b, c)) {
+        float dienTich = tinhDienTich(a, b, c);
+        printf("Dien tich cua tam giac la: %.2f\n", dienTich);
+    } else {
+        printf("Loi: a, b, c khong phai la 3 canh cua 1 tam giac.\n");
+    }
+
+    return 0;
+}
